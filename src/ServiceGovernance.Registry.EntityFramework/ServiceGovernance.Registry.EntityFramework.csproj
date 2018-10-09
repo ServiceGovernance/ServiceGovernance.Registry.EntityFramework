@@ -1,0 +1,35 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+
+    <PackageId>ServiceGovernance.Registry.Storage.EntityFramework</PackageId>
+    <Description>Storage implementation for Service Registry (ServiceGovernance.Registry.Storage) using EntityFramework</Description>
+    <Authors>Toni Wenzel</Authors>
+
+    <PackageTags>Service;Governance;Registry;ServiceRegistry;EntityFramework</PackageTags>
+    <PackageIconUrl>https://github.com/ServiceGovernance/Home/raw/master/artwork/logos/logo_128.png</PackageIconUrl>
+    <PackageProjectUrl>https://github.com/ServiceGovernance/ServiceGovernance.Registry.Storage.EntityFramework</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/ServiceGovernance/ServiceGovernance.Registry.Storage.EntityFramework/blob/release/LICENSE</PackageLicenseUrl>
+
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="7.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="2.1.4" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-beta-63127-02" PrivateAssets="All" />
+    <PackageReference Include="SonarAnalyzer.CSharp" Version="7.5.0.6605">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ServiceGovernance.Registry\ServiceGovernance.Registry.csproj" />
+  </ItemGroup>
+
+</Project>
