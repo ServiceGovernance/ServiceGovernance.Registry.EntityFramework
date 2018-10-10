@@ -3,11 +3,13 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
 
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageId>ServiceGovernance.Registry.EntityFramework</PackageId>
-    <Description>Storage implementation for Service Registry (ServiceGovernance.Registry.Storage) using EntityFramework</Description>
+    <Description>Storage implementation for Service Registry (https://github.com/ServiceGovernance/ServiceGovernance.Registry) using EntityFramework</Description>
     <Authors>Toni Wenzel</Authors>
+    <Version>$(SemVer)</Version>
 
-    <PackageTags>service ServiceGovernance Governance serviceregistry registry agent entityframework</PackageTags>
+    <PackageTags>service ServiceGovernance Governance serviceregistry registry entityframework</PackageTags>
     <PackageIconUrl>https://github.com/ServiceGovernance/Home/raw/master/artwork/logos/logo_128.png</PackageIconUrl>
     <PackageLicenseUrl>https://github.com/ServiceGovernance/ServiceGovernance.Registry.EntityFramework/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/ServiceGovernance/ServiceGovernance.Registry.EntityFramework</PackageProjectUrl>
