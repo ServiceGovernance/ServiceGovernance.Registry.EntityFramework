@@ -9,7 +9,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\ServiceGovernance.Registry\ServiceGovernance.Registry.csproj" />
     <ProjectReference Include="..\..\src\ServiceGovernance.Registry.EntityFramework\ServiceGovernance.Registry.EntityFramework.csproj" />
   </ItemGroup>
 

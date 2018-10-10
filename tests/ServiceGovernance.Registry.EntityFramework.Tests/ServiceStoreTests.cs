@@ -111,6 +111,7 @@ namespace ServiceGovernance.Registry.EntityFramework.Tests
 
                 using (var context = new RegistryDbContext(DbContextOptions, StoreOptions))
                 {
+                    context.Services.RemoveRange(context.Services.ToArray());
                     context.Services.Add(model1.ToEntity());
                     context.Services.Add(model2.ToEntity());
                     context.SaveChanges();
