@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using ServiceGovernance.Registry.EntityFramework;
 using System.Reflection;
 
 namespace Registry
@@ -66,6 +67,13 @@ namespace Registry
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            // migrate DB
+            using (var serviceScope = app.ApplicationServices.CreateScope())
+            {
+                var context = serviceScope.ServiceProvider.GetService<RegistryDbContext>();
+                context.Database.Migrate();
+            }
         }
     }
 }
