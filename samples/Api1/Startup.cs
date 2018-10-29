@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
+using System;
 
 namespace Api1
 {
@@ -26,11 +20,13 @@ namespace Api1
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            services.AddServiceRegistryAgent(options => {
-                options.Registry = new Uri("https://localhost:5005");
+            services.AddServiceRegistryAgent(options =>
+            {
+                options.Registry = new Uri("http://localhost:5005");
                 options.ServiceIdentifier = "Api1";
                 options.ServiceDisplayName = "My Api";
-                });
+                options.PublicUrls = new[] { new Uri("http://api1.mycompany.com") };
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

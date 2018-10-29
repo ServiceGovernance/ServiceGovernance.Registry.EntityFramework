@@ -37,8 +37,7 @@ namespace ServiceGovernance.Registry.EntityFramework.Stores
         /// <returns></returns>
         public Task<Service> FindByServiceIdAsync(string serviceId)
         {
-            var service = _context.Services
-                .Include(s => s.Endpoints)
+            var service = _context.CreateServiceQuery()
                 .AsNoTracking()
                 .FirstOrDefault(s => s.ServiceId == serviceId);
             var model = service?.ToModel();
@@ -54,8 +53,7 @@ namespace ServiceGovernance.Registry.EntityFramework.Stores
         /// <returns></returns>
         public Task<IEnumerable<Service>> GetAllAsync()
         {
-            var services = _context.Services
-               .Include(s => s.Endpoints)
+            var services = _context.CreateServiceQuery()
                .AsNoTracking();
 
             IEnumerable<Service> models = services.ToModelList();
@@ -99,7 +97,7 @@ namespace ServiceGovernance.Registry.EntityFramework.Stores
         /// <returns></returns>
         public async Task StoreAsync(Service service)
         {
-            var existing = _context.Services.SingleOrDefault(x => x.ServiceId == service.ServiceId);
+            var existing = _context.CreateServiceQuery().SingleOrDefault(x => x.ServiceId == service.ServiceId);
             if (existing == null)
             {
                 _logger.LogDebug("{serviceId} not found in database", service.ServiceId);

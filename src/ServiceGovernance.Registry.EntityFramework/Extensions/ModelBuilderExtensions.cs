@@ -30,12 +30,26 @@ namespace ServiceGovernance.Registry.EntityFramework.Extensions
                 service.HasIndex(x => x.ServiceId).IsUnique();
 
                 service.HasMany(x => x.Endpoints).WithOne(x => x.Service).HasForeignKey(x => x.ServiceId).IsRequired().OnDelete(DeleteBehavior.Cascade);
+                service.HasMany(x => x.IpAddresses).WithOne(x => x.Service).HasForeignKey(x => x.ServiceId).IsRequired().OnDelete(DeleteBehavior.Cascade);
+                service.HasMany(x => x.PublicUrls).WithOne(x => x.Service).HasForeignKey(x => x.ServiceId).IsRequired().OnDelete(DeleteBehavior.Cascade);
             });
 
             modelBuilder.Entity<ServiceEndpoint>(endpoint =>
             {
                 endpoint.ToTable(storeOptions.ServiceEndpoint);
                 endpoint.Property(x => x.EndpointUri).HasMaxLength(2000).IsRequired();
+            });
+
+            modelBuilder.Entity<ServiceIpAddress>(endpoint =>
+            {
+                endpoint.ToTable(storeOptions.ServiceIpAddress);
+                endpoint.Property(x => x.IpAddress).HasMaxLength(16).IsRequired();
+            });
+
+            modelBuilder.Entity<ServicePublicUrl>(endpoint =>
+            {
+                endpoint.ToTable(storeOptions.ServicePublicUrl);
+                endpoint.Property(x => x.Url).HasMaxLength(2000).IsRequired();
             });
         }
     }

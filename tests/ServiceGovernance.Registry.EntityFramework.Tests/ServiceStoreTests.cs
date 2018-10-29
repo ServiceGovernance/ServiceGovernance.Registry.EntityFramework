@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
@@ -68,7 +69,9 @@ namespace ServiceGovernance.Registry.EntityFramework.Tests
                 {
                     ServiceId = "Returns_Item_With_All_Properties_When_Service_Exists",
                     DisplayName = "Test Service",
-                    ServiceEndpoints = new Uri[] { new Uri("http://test.com") }
+                    Endpoints = new [] { new Uri("http://myservice1-qa.com") },
+                    IpAddresses = new[] { "10.10.0.1"},
+                    PublicUrls = new[] { new Uri("http://myservice-qa.com")}
                 };
 
                 using (var context = new RegistryDbContext(DbContextOptions, StoreOptions))
@@ -87,8 +90,12 @@ namespace ServiceGovernance.Registry.EntityFramework.Tests
                 service.Should().NotBeNull();
                 service.ServiceId.Should().Be(serviceModel.ServiceId);
                 service.DisplayName.Should().Be(serviceModel.DisplayName);
-                service.ServiceEndpoints.Should().HaveCount(1);
-                service.ServiceEndpoints[0].Should().Be(serviceModel.ServiceEndpoints[0]);
+                service.Endpoints.Should().HaveCount(1);
+                service.Endpoints[0].Should().Be(serviceModel.Endpoints[0]);
+                service.IpAddresses.Should().HaveCount(1);
+                service.IpAddresses[0].Should().Be(serviceModel.IpAddresses[0]);
+                service.PublicUrls.Should().HaveCount(1);
+                service.PublicUrls[0].Should().Be(serviceModel.PublicUrls[0]);
             }
         }
 
@@ -181,7 +188,10 @@ namespace ServiceGovernance.Registry.EntityFramework.Tests
                 var model = new Service
                 {
                     ServiceId = "Saves_New_Item",
-                    DisplayName = "Test Service"
+                    DisplayName = "Test Service",
+                    Endpoints = new [] { new Uri("http://myservice01-qa.com") },
+                    PublicUrls = new [] { new Uri("http://myservice-qa.com") },
+                    IpAddresses = new[] { "10.10.0.1"}
                 };
 
                 using (var context = new RegistryDbContext(DbContextOptions, StoreOptions))
@@ -192,16 +202,26 @@ namespace ServiceGovernance.Registry.EntityFramework.Tests
 
                 using (var context = new RegistryDbContext(DbContextOptions, StoreOptions))
                 {
-                    context.Services.SingleOrDefault(s => s.ServiceId == model.ServiceId).Should().NotBeNull();
+                    var service = context.CreateServiceQuery().SingleOrDefault(s => s.ServiceId == model.ServiceId);
+                    service.Should().NotBeNull();
+
+                    service.ServiceId.Should().Be(model.ServiceId);
+                    service.DisplayName.Should().Be(model.DisplayName);
+                    service.Endpoints.Should().HaveCount(1);
+                    service.Endpoints[0].EndpointUri.Should().Be(model.Endpoints[0].ToString());
+                    service.IpAddresses.Should().HaveCount(1);
+                    service.IpAddresses[0].IpAddress.Should().Be(model.IpAddresses[0]);
+                    service.PublicUrls.Should().HaveCount(1);
+                    service.PublicUrls[0].Url.Should().Be(model.PublicUrls[0].ToString());
                 }
             }
 
             [Test]
-            public async Task Updates_Existing_Item()
+            public async Task Updates_DisplayName_On_Existing_Item()
             {
                 var model = new Service
                 {
-                    ServiceId = "Updates_Existing_Item",
+                    ServiceId = "Updates_DisplayName_On_Existing_Item",
                     DisplayName = "Test Service"
                 };
 
@@ -221,9 +241,41 @@ namespace ServiceGovernance.Registry.EntityFramework.Tests
 
                 using (var context = new RegistryDbContext(DbContextOptions, StoreOptions))
                 {
-                    var item = context.Services.SingleOrDefault(s => s.ServiceId == model.ServiceId);
+                    var item = context.CreateServiceQuery().SingleOrDefault(s => s.ServiceId == model.ServiceId);
                     item.Should().NotBeNull();
                     item.DisplayName.Should().Be(model.DisplayName);
+                }
+            }
+
+            [Test]
+            public async Task Updates_Endpoints_On_Existing_Item()
+            {
+                var model = new Service
+                {
+                    ServiceId = "Updates_Endpoints_On_Existing_Item",
+                    DisplayName = "Test Service",
+                    Endpoints = new [] { new Uri("http://myservice01-qa.com")}
+                };
+
+                using (var context = new RegistryDbContext(DbContextOptions, StoreOptions))
+                {
+                    context.Services.Add(model.ToEntity());
+                    context.SaveChanges();
+                }
+
+                model.Endpoints = new [] { new Uri("http://myservice01-qa.com"), new Uri("http://myservice02-qa.com") };
+
+                using (var context = new RegistryDbContext(DbContextOptions, StoreOptions))
+                {
+                    var store = new ServiceStore(context, new Mock<ILogger<ServiceStore>>().Object);
+                    await store.StoreAsync(model);
+                }
+
+                using (var context = new RegistryDbContext(DbContextOptions, StoreOptions))
+                {
+                    var item = context.CreateServiceQuery().SingleOrDefault(s => s.ServiceId == model.ServiceId);
+                    item.Should().NotBeNull();
+                    item.Endpoints.Should().HaveCount(2);
                 }
             }
         }

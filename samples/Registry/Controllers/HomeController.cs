@@ -1,37 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Registry.Models;
+using ServiceGovernance.Registry.Stores;
+using System;
+using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace Registry.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        private readonly IServiceStore _serviceStore;
+
+        public HomeController(IServiceStore serviceStore)
         {
-            return View();
+            _serviceStore = serviceStore ?? throw new ArgumentNullException(nameof(serviceStore));
         }
 
-        public IActionResult About()
+        public async Task<IActionResult> Index()
         {
-            ViewData["Message"] = "Your application description page.";
-
-            return View();
-        }
-
-        public IActionResult Contact()
-        {
-            ViewData["Message"] = "Your contact page.";
-
-            return View();
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
+            return View(await _serviceStore.GetAllAsync());
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

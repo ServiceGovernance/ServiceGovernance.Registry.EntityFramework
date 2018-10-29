@@ -11,41 +11,36 @@ namespace ServiceGovernance.Registry.EntityFramework.Options
         /// <summary>
         /// Callback to configure the EF DbContext.
         /// </summary>
-        /// <value>
-        /// The configure database context.
-        /// </value>
         public Action<DbContextOptionsBuilder> ConfigureDbContext { get; set; }
 
         /// <summary>
         /// Callback in DI resolve the EF DbContextOptions. If set, ConfigureDbContext will not be used.
-        /// </summary>
-        /// <value>
-        /// The configure database context.
-        /// </value>
+        /// </summary>        
         public Action<IServiceProvider, DbContextOptionsBuilder> ResolveDbContextOptions { get; set; }
 
         /// <summary>
         /// Gets or sets the default schema.
-        /// </summary>
-        /// <value>
-        /// The default schema.
-        /// </value>
+        /// </summary>        
         public string DefaultSchema { get; set; }
 
         /// <summary>
         /// Gets or sets the service table configuration.
-        /// </summary>
-        /// <value>
-        /// The service.
-        /// </value>
+        /// </summary>        
         public string Service { get; set; } = "Services";
 
         /// <summary>
         /// Gets or sets the service endpoint table configuration.
-        /// </summary>
-        /// <value>
-        /// The service endpoint.
-        /// </value>
+        /// </summary>        
         public string ServiceEndpoint { get; set; } = "ServiceEndpoints";
+
+        /// <summary>
+        /// Gets or sets the service ipaddress table configuration.
+        /// </summary>        
+        public string ServiceIpAddress { get; set; } = "ServiceIpAddresses";
+
+        /// <summary>
+        /// Gets or sets the service url table configuration.
+        /// </summary>        
+        public string ServicePublicUrl { get; set; } = "ServicePublicUrls";
     }
 }
