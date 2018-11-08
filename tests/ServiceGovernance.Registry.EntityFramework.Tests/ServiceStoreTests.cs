@@ -1,5 +1,4 @@
 ﻿using FluentAssertions;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Moq;
 using NUnit.Framework;
@@ -69,9 +68,9 @@ namespace ServiceGovernance.Registry.EntityFramework.Tests
                 {
                     ServiceId = "Returns_Item_With_All_Properties_When_Service_Exists",
                     DisplayName = "Test Service",
-                    Endpoints = new [] { new Uri("http://myservice1-qa.com") },
-                    IpAddresses = new[] { "10.10.0.1"},
-                    PublicUrls = new[] { new Uri("http://myservice-qa.com")}
+                    Endpoints = new[] { new Uri("http://myservice1-qa.com") },
+                    IpAddresses = new[] { "10.10.0.1" },
+                    PublicUrls = new[] { new Uri("http://myservice-qa.com") }
                 };
 
                 using (var context = new RegistryDbContext(DbContextOptions, StoreOptions))
@@ -189,9 +188,9 @@ namespace ServiceGovernance.Registry.EntityFramework.Tests
                 {
                     ServiceId = "Saves_New_Item",
                     DisplayName = "Test Service",
-                    Endpoints = new [] { new Uri("http://myservice01-qa.com") },
-                    PublicUrls = new [] { new Uri("http://myservice-qa.com") },
-                    IpAddresses = new[] { "10.10.0.1"}
+                    Endpoints = new[] { new Uri("http://myservice01-qa.com") },
+                    PublicUrls = new[] { new Uri("http://myservice-qa.com") },
+                    IpAddresses = new[] { "10.10.0.1" }
                 };
 
                 using (var context = new RegistryDbContext(DbContextOptions, StoreOptions))
@@ -254,7 +253,7 @@ namespace ServiceGovernance.Registry.EntityFramework.Tests
                 {
                     ServiceId = "Updates_Endpoints_On_Existing_Item",
                     DisplayName = "Test Service",
-                    Endpoints = new [] { new Uri("http://myservice01-qa.com")}
+                    Endpoints = new[] { new Uri("http://myservice01-qa.com") }
                 };
 
                 using (var context = new RegistryDbContext(DbContextOptions, StoreOptions))
@@ -263,7 +262,7 @@ namespace ServiceGovernance.Registry.EntityFramework.Tests
                     context.SaveChanges();
                 }
 
-                model.Endpoints = new [] { new Uri("http://myservice01-qa.com"), new Uri("http://myservice02-qa.com") };
+                model.Endpoints = new[] { new Uri("http://myservice01-qa.com"), new Uri("http://myservice02-qa.com") };
 
                 using (var context = new RegistryDbContext(DbContextOptions, StoreOptions))
                 {

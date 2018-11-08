@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 namespace ServiceGovernance.Registry.EntityFramework.Options
 {
     /// <summary>
-    /// Options for configuring the registry store
+    /// Options for configuring the registry stores
     /// </summary>
     public class RegistryStoreOptions
     {
